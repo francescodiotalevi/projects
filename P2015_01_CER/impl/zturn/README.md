@@ -1,4 +1,4 @@
-# Digilent Zedboard design
+# Myir Zturn design
 
 The BOOT.BIN has been created by using the Xilinx Vivado 2015.2 version.
 

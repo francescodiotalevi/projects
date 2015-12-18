@@ -1,3 +1,3 @@
-# Myir Zturn design
+# Digilent Zedboard design
 
 

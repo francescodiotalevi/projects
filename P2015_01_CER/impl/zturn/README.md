@@ -31,9 +31,10 @@ It is connected as stream interface to the Auxdisp
 To create the u-boot for zturn, follow these instructions:
 
 1. checkout the *EDL_2015.2 branch* of *u-boot-xlnx* from [here]
-2. type: **make zynq_zturn_config**
-3. type: **make**
-4. the *.u-boot* file is built
+2. from the checkouted directory type:
+   1. **make zynq_zturn_config**
+   2. **make**
+3. the *.u-boot* file is then built in the directory where you typed the commands above
 
 [here]:https://github.com/francescodiotalevi/u-boot-xlnx/tree/EDL_2015.2
  

@@ -1,0 +1,13 @@
+Last MAC 
+Address     Owner                       Board
+--------------------------------------------
+22          F. Diotalevi                Zedboard
+23          M. Goccia                   Zedboard
+24          C. Lorini                   Zedboard 
+25          F. Boi                      Zedboard
+26          L. Giuliani                 Zedboard
+27          V. De Feo/G. De Robertis    Zedboard
+28          F. Diotalevi                Zturn
+29          C. Lorini                   Zturn
+30          M. Maggiali                 Zturn
+31          A. Merello                  Zturn 

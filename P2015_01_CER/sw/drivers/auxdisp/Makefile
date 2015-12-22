@@ -1,7 +1,7 @@
-obj-m := auxdisp.o 
+obj-m := auxdisp.o
 ccflags-m := -DDEBUG
 
 all:
-	make -C ../linux_kernel/ M=$(PWD) modules
+	make -C /home/andrea/zed_kernel/linux-stable M=$(PWD) modules
 clean:
-	make -C ../linux_kernel/ M=$(PWD) clean
+	make -C /home/andrea/zed_kernel/linux-stable M=$(PWD) clean

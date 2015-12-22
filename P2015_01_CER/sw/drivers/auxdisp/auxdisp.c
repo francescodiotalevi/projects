@@ -18,7 +18,6 @@
 #include <linux/dmaengine.h>
 #include <linux/dma-mapping.h>
 #include <linux/dmapool.h>
-#include <linux/dma/xilinx_dma.h>
 #include <linux/of_gpio.h>
 
 #include "auxdisp.h"
@@ -72,15 +71,13 @@ unsigned int input_picsize;
 struct dev_support {
 	int major, minor;
 	struct cdev chdev;
+	struct device *dev;
 	dev_t devt;
 	void *base_addr;
 	size_t mem_size;
 	resource_size_t pm_start;	//phisical memory start
-
 	unsigned int irq;
-
 	wait_queue_head_t wait;
-
 	struct dma_chan *tx_dma_chan;
 	dma_addr_t tx_dma_buf_phys;
 	unsigned char *tx_dma_buf_virt;
@@ -121,14 +118,6 @@ static int remove_dma(void)
 	dma_release_channel(d_support.tx_dma_chan);
 
 	return 0;
-}
-
-static bool xdma_filter(struct dma_chan *chan, void *param)
-{
-	if (*((int *)chan->private) == *(int *)param)
-		return true;
-
-	return false;
 }
 
 static ssize_t chardev_read(struct file *fp, char *buf, size_t length,
@@ -298,27 +287,19 @@ err_config:
 
 static int init_dma(void)
 {
-	dma_cap_mask_t mask;
-	enum dma_data_direction direction;
-	u32 match, device_id = 0;
 	struct dma_device *tx_dev;
 
 	// /////////////////////////////////////////////////////////////////////////////
 	// Configure the DMA
 	// /////////////////////////////////////////////////////////////////////////////
-	dma_cap_zero(mask);
-	dma_cap_set(DMA_SLAVE | DMA_PRIVATE, mask);
 
 	d_support.tx_tmo = msecs_to_jiffies(3000);
 
 	// Channels request Set tx channel
-	direction = DMA_MEM_TO_DEV;
-	match =
-	    (direction & 0xFF) | XILINX_DMA_IP_DMA | (device_id <<
-						      XILINX_DMA_DEVICE_ID_SHIFT);
 
 	d_support.tx_dma_chan =
-	    dma_request_channel(mask, xdma_filter, (void *)&match);
+		dma_request_slave_channel(d_support.dev, "mem2dev");
+
 	if (!d_support.tx_dma_chan) {
 		printk(KERN_INFO MSG_PREFIX "No more tx channels available\n");
 		goto exit_now;
@@ -614,7 +595,7 @@ static int auxdisp_probe(struct platform_device *devp)
 	printk(KERN_DEBUG MSG_PREFIX "Probing auxdisp\n");
 
 	d_support.writing_done = NULL;
-
+	d_support.dev = &devp->dev;
 	if ((result = register_chardev(devp)) < 0) {
 		printk(KERN_INFO MSG_PREFIX
 		       "Error registering character device!\n");

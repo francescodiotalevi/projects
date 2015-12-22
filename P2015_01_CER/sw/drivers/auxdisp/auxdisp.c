@@ -18,7 +18,7 @@
 #include <linux/dmaengine.h>
 #include <linux/dma-mapping.h>
 #include <linux/dmapool.h>
-#include <linux/amba/xilinx_dma.h>
+#include <linux/dma/xilinx_dma.h>
 #include <linux/of_gpio.h>
 
 #include "auxdisp.h"

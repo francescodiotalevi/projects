@@ -14,6 +14,6 @@ To create the u-boot for zturn, follow these instructions:
 
 **Please note** that the u-boot **automatically at the early steps initializes** the USB and ETH reset and also I2Cs. 
 
-[pl.dtsi]:https://github.com/francescodiotalevi/P2015_01_CER/impl/zturn/pl.dtsi
+[pl.dtsi]:https://github.com/francescodiotalevi/projects/blob/master/P2015_01_CER/impl/zturn/pl.dtsi
 [here]:https://github.com/francescodiotalevi/u-boot-xlnx/tree/EDL_2015.2
  

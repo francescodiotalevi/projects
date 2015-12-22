@@ -271,7 +271,6 @@ static int init_dma (void) {
 	enum dma_data_direction direction;
     u32 match, device_id = 0;
     struct dma_device *tx_dev;
-	struct xilinx_dma_config config;
 
     // /////////////////////////////////////////////////////////////////////////////
     // Configure the DMA
@@ -293,11 +292,7 @@ static int init_dma (void) {
 
     // Channels settings
     tx_dev=d_support.tx_dma_chan->device;
-   
-	/* Only one interrupt */
-	config.coalesc = 1;
-	config.delay = 0;
-	tx_dev->device_control(d_support.tx_dma_chan, DMA_SLAVE_CONFIG, (unsigned long)&config);
+
 
     exit_now:
         return 0;

@@ -1,0 +1,154 @@
+&amba {
+		axi_i2s_adi_0: axi_i2s_adi@43c20000 {
+			compatible = "adi,axi-i2s-1.00.a";
+			reg = <0x43c20000 0x10000>;
+			dmas = <&dmac_s 0 &dmac_s 1>;
+			dma-names = "tx", "rx";
+			clocks = <&clkc 15>, <&audio_clock>, <&audio_clock>;
+			clock-names = "axi", "ref", "i2s";
+		};
+		axi_clkgen_0: axi_clkgen@43c40000 {
+			compatible = "adi,axi-clkgen-2.00.a";
+			reg = <0x43c40000 0x10000>;
+			#clock-cells = <0>;
+			clocks = <&clkc 16>;
+		};
+		axi_hdmi_dma: dma@43000000 {
+		    compatible = "xlnx,axi-vdma-1.00.a";
+		    #address-cells = <0x1>;
+		    #size-cells = <0x1>;
+		    #dma-cells = <0x1>;
+		    #dma-channels = <0x1>;
+		    reg = <0x43000000 0x10000>;
+		    xlnx,num-fstores = <0x3>;
+		    interrupt-parent = <&intc>;
+		    interrupts = <0 31 4>;
+
+		    dma-channel@43000000 {
+			    compatible = "xlnx,axi-vdma-mm2s-channel";
+			    interrupts = <0x0 31 0x4>;
+			    xlnx,datawidth = <0x40>;
+			    xlnx,genlock-mode = <0x0>;
+			    xlnx,include-dre = <0x0>;
+		    };
+		};
+		axi_hdmi_tx_0: axi_hdmi_tx@43c30000 {
+			compatible = "adi,axi-hdmi-tx-1.00.a";
+			reg = <0x43c30000 0x10000>;
+			encoder-slave = <&adv7511>;
+			dmas = <&axi_hdmi_dma 0>;
+			dma-names = "video";
+			clocks = <&axi_clkgen_0>;
+		};
+		axi_iic_0: i2c@41610000 {
+			compatible = "xlnx,axi-iic-1.01.b", "xlnx,xps-iic-2.00.a";
+			interrupt-parent = <&intc>;
+			interrupts = <0 33 4>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0x41610000 0x10000>;
+		};
+		axi_iic_fmc: i2c@41600000 {
+		    compatible = "xlnx,axi-iic-1.01.b", "xlnx,xps-iic-2.00.a";
+		    interrupt-parent = <&intc>;
+		    interrupts = <0x0 32 0x4>;
+		    reg = <0x41600000 0x10000>;
+		    #size-cells = <0x0>;
+		    #address-cells = <0x1>;
+
+		    adv7511: adv7511@39 {
+			    compatible = "adi,adv7511";
+			    reg = <0x39>;
+			    adi,input-style = <0x2>;
+			    adi,input-depth = <0x8>;
+			    adi,input-colorspace = "yuv422";
+			    adi,input-justification = "right";
+			    adi,up-conversion = <0x0>;
+			    adi,clock-delay = <0x3>;
+			    adi,input-clock = "1x";
+		    };
+	    };
+
+		axi_spdif_tx_0: axi_spdif_tx@60000000 {
+			compatible = "adi,axi-spdif-tx-1.00.a";
+			reg = <0x60000000 0x10000>;
+			dmas = <&dmac_s 2>;
+			dma-names = "tx";
+			clocks = <&clkc 15>, <&audio_clock>, <&audio_clock>;
+			clock-names = "axi", "ref", "spdif";
+		};
+
+		adv7511_hdmi_snd: adv7511_hdmi_snd {
+			compatible = "adv7511-hdmi-snd";
+			audio-codec = <&adv7511>;
+			cpu-dai = <&axi_spdif_tx_0>;
+		};
+
+		audio_clock: audio_clock {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <12288000>;
+		}; 
+
+		vga_enh_top_0: vga_enh_top@43c00000 {
+			compatible = "opencores,ocfb-edl";
+			reg = <0x43c00000 0x10000>;
+		};
+
+    zed_oled {
+        compatible = "dglnt,pmodoled-gpio";
+        
+        dc-gpio = <&gpio0 59 0>;
+        res-gpio = <&gpio0 60 0>;
+        vbat-gpio = <&gpio0 63 0>;
+        vdd-gpio = <&gpio0 64 0>;
+        spi-bus-num = <2>;
+        
+        spi-sclk-gpio = <&gpio0 61 0>;
+        spi-sdin-gpio = <&gpio0 62 0>;
+    };
+
+	leds {
+		compatible = "gpio-leds";
+		ld0 {
+			label = "ld0:red";
+			gpios = <&gpio0 73 0>;
+		};
+
+		ld1 {
+			label = "ld1:red";
+			gpios = <&gpio0 74 0>;
+		};
+
+		ld2 { 
+			label = "ld2:red";
+			gpios = <&gpio0 75 0>;
+		};
+
+		ld3 {
+			label = "ld3:red";
+			gpios = <&gpio0 76 0>;
+		};
+
+		ld4 {
+			label = "ld4:red";
+			gpios = <&gpio0 77 0>;
+		};
+
+		ld5 {
+			label = "ld5:red";
+			gpios = <&gpio0 78 0>;
+		};
+
+		ld6 {
+			label = "ld6:red";
+			gpios = <&gpio0 79 0>;
+		};
+
+		ld7 {
+			label = "ld7:red";
+			gpios = <&gpio0 80 0>;
+		};
+	};
+
+};

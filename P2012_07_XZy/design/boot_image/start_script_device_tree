@@ -1,0 +1,1 @@
+../linux_kernel/scripts/dtc/dtc -I dts -O dtb -o devicetree.dtb system.dts 

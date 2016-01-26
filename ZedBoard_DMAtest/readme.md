@@ -21,6 +21,7 @@ Include the xilinx dma driver and also the xilinx dma test. Then, compile the ke
 ```sh
 $ make ARCH=arm UIMAGE_LOADADDR=0x8000 uImage
 ```
+> __A maintained EDL version of working linux kernel is also here: [EDL linux branch]__
 
 ### Devicetree
 The devicetree here used has been cloned from [xilinx devicetree] with tag *xilinx-v2015.1*.
@@ -44,13 +45,17 @@ These instructions needs to be followed to build the fpga bitstream.
 > ./start_script_device_tree
 ```
 * Now in the boot_image you should have *BOOT.bin*, *devicetree.dtb*. Put them with the uImage as in *Linux Kernel Section* into the FAT partition of the SD card.
+
 ### Development
 Want to contribute? Great!
+
 ### Todos
 TBD
+
 ### License
 TBD
 
- [u-boot repository]: <https://github.com/francescodiotalevi/u-boot-xlnx>
- [xilinx linux kernel]: <https://github.com/Xilinx/linux-xlnx.git>
- [xilinx devicetree]: <https://github.com/Xilinx/device-tree-xlnx>
+[u-boot repository]: <https://github.com/francescodiotalevi/u-boot-xlnx>
+[xilinx linux kernel]: <https://github.com/Xilinx/linux-xlnx.git>
+[EDL linux branch]: <https://github.com/andreamerello/linux-zynq-stable/tree/P2016_I01_xilinx_dma_test>
+[xilinx devicetree]: <https://github.com/Xilinx/device-tree-xlnx>

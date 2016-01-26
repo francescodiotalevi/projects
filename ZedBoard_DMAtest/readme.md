@@ -31,7 +31,7 @@ Use the cloned directory as reference for the Xilinx tools reference in Xilinx S
 These instructions needs to be followed to build the fpga bitstream.
 * Open a new project for the Zedboard in vivado and call it *fpga*
 * Create a Block Design and call it *system*
-* from the tcl command bar types: *source ../\_\_reference_stuff\_\_/whole_design.tcl*
+* from the tcl command bar types: *source ../\_\_reference_stuff\_\_/whole_design.tcl* (for 2015.2 vivado version) or *source ../\_\_reference_stuff\_\_/whole_design_2015.4.tcl* (for 2015.4 vivado version)
 * use the *../\_\_reference_stuff\_\_/sytem_wrapper.v* as top design.
 * Generate the bitstream
 * export the hardware (with the bitstream flagged).

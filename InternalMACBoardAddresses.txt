@@ -11,3 +11,5 @@ Address     Owner                       Board
 29          C. Lorini                   Zturn
 30          M. Maggiali                 Zturn
 31          A. Merello                  Zturn 
+32          BlindPad_0			Zturn 
+33          BlindPad_1			Zturn 

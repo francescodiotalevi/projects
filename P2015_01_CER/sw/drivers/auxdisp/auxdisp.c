@@ -57,6 +57,10 @@
 static long auxdisp_ioctl(struct file *filp, unsigned int cmd, unsigned long param);
 static long get_version(struct file *filp, unsigned int * version);
 static long get_ctrl(struct file *filp, unsigned int * value);
+static long get_vl(struct file *filp, unsigned int *value);
+static long set_vl(struct file *filp, unsigned int val);
+static long get_enable(struct file *filp, unsigned int *value);
+static long set_enable(struct file *filp, unsigned int val);
 static long set_fc(struct file *filp, uint48_t **FC);
 static long set_reset(unsigned int val);
 static irqreturn_t irq_handler(int irq, void *arg);
@@ -94,6 +98,7 @@ struct dev_support {
     int ready;
     unsigned char                           *writing_done;
     int                                     reset_auxdisp;
+    int                                     vl;
 };
 
 static struct class *ret_class;
@@ -618,17 +623,37 @@ static int auxdisp_probe(struct platform_device *devp) {
         return -1;
     }
     
-    d_support.reset_auxdisp = of_get_named_gpio(np, "auxdisp-reset", 0);
+    // VL
+    d_support.vl = of_get_named_gpio(np, "vl", 0);
+    if (!gpio_is_valid(d_support.vl)) {
+        dev_err(&devp->dev, "(VL) Invalid gpio: %d\n", d_support.vl);
+        remove_dma();
+        return (d_support.vl);
+    } else {
+        if (gpio_direction_output(d_support.vl, 0)<0) {
+            dev_err(&devp->dev, "Cannot turn to output gpio: %d\n", d_support.vl);;
+        } else {
+            gpio_set_value(d_support.vl, 0); // Active low
+            printk(KERN_INFO MSG_PREFIX "VL active\n");
+        }
+    }
+
+    msleep(1);
+    
+    // Enable
+    d_support.reset_auxdisp = of_get_named_gpio(np, "enable", 0);
     if (!gpio_is_valid(d_support.reset_auxdisp)) {
-        dev_err(&devp->dev, "Invalid gpio: %d\n", d_support.reset_auxdisp);
+        dev_err(&devp->dev, "(Enable) Invalid gpio: %d\n", d_support.reset_auxdisp);
         remove_dma();
         return (d_support.reset_auxdisp);
     } else {
         if (gpio_direction_output(d_support.reset_auxdisp, 0)<0) {
             dev_err(&devp->dev, "Cannot turn to output gpio: %d\n", d_support.reset_auxdisp);;
+        } else {
+            gpio_set_value(d_support.reset_auxdisp, 0); // Active low
+            printk(KERN_INFO MSG_PREFIX "Enabled\n");
         }
     }
-    
     
     // Reset all FSMs inside the auxdisp module
     set_reset(1);
@@ -677,7 +702,11 @@ static int auxdisp_remove(struct platform_device *devp) {
 	release_mem_region(d_support.pm_start, d_support.mem_size);
         
     // Turn the input of TLC to be not driven by FPGA
-    gpio_direction_input(d_support.reset_auxdisp);
+    gpio_set_value(d_support.reset_auxdisp, 1); // Active low,
+    gpio_direction_input(d_support.reset_auxdisp); // Now is the board pullup that drives the input
+    msleep(1);
+    gpio_set_value(d_support.vl, 1); // Active low
+    gpio_direction_input(d_support.vl); // Now is the board pullup that drives the input
     
 	printk(KERN_DEBUG MSG_PREFIX "Removed\n");
     return 0;
@@ -792,6 +821,33 @@ static long auxdisp_ioctl(struct file *filp, unsigned int cmd, unsigned long par
             
             break;
      
+
+        case IOC_GET_VL:
+            res=get_vl(filp, &tmp);
+            if (copy_to_user((unsigned int *)param, &tmp, sizeof(unsigned int)))
+                goto ctuser_err;
+            
+            break;
+            
+        case IOC_SET_VL:
+            tmp = (unsigned int) param;
+            res=set_vl(filp, tmp);
+            
+            break;
+            
+        case IOC_GET_ENABLE:
+            res=get_enable(filp, &tmp);
+            if (copy_to_user((unsigned int *)param, &tmp, sizeof(unsigned int)))
+                goto ctuser_err;
+            
+            break;
+            
+        case IOC_SET_ENABLE:
+            tmp = (unsigned int) param;
+            res=set_enable(filp, tmp);
+            
+            break;
+            
         default:
             printk(KERN_INFO MSG_PREFIX "IOCTL request not handled: %d\n", cmd);
             return -EFAULT;
@@ -825,6 +881,34 @@ static long get_ctrl(struct file *filp, unsigned int *value) {
 
 	get_register_bits(ctrl_reg, tmp, 0xFFFFFFFF);
     *value=tmp;
+    
+    return(0);
+}
+
+static long get_vl(struct file *filp, unsigned int *value) {
+
+    *value=gpio_get_value(d_support.vl);
+    
+    return(0);
+}
+
+static long set_vl(struct file *filp, unsigned int val) {
+
+    gpio_set_value(d_support.vl,val);
+    
+    return(0);
+}
+
+static long get_enable(struct file *filp, unsigned int *value) {
+
+    *value=gpio_get_value(d_support.reset_auxdisp);
+    
+    return(0);
+}
+
+static long set_enable(struct file *filp, unsigned int val) {
+
+    gpio_set_value(d_support.reset_auxdisp,val);
     
     return(0);
 }

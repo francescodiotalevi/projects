@@ -8,5 +8,9 @@
 #define IOC_RESET_IP     _IOW(IOC_MAGIC_NUMBER, 3, unsigned int)
 #define IOC_GEN_REG      _IOWR(IOC_MAGIC_NUMBER, 4, struct auxdisp_regs *)
 #define IOC_SET_BPP      _IOW(IOC_MAGIC_NUMBER, 5, unsigned int)
+#define IOC_GET_VL       _IOW(IOC_MAGIC_NUMBER, 6, unsigned int)
+#define IOC_SET_VL       _IOW(IOC_MAGIC_NUMBER, 7, unsigned int)
+#define IOC_GET_ENABLE   _IOW(IOC_MAGIC_NUMBER, 8, unsigned int)
+#define IOC_SET_ENABLE   _IOW(IOC_MAGIC_NUMBER, 9, unsigned int)
 
 #endif

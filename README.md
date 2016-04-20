@@ -2,7 +2,9 @@
 All the projects are here stored
 
 ## P2012_07_XZy
-This project is related to a fully working Zedbaord. The fully working parts are:
+This project is related to a fully working Zedbaord and ZTurn. 
+
+The fully working parts on **Zedboard** are:
 - Vga
 - Hdmi
 - Switches
@@ -12,6 +14,17 @@ This project is related to a fully working Zedbaord. The fully working parts are
 - Oled display
 - Buttons
 
+The fully working parts on **ZTurn** are:
+- gsensor
+- temperature sensor
+- RGB led
+- Switches
+- Buzzer
+- 2 user leds
+- Ethernet
+- USB (OTG and Uart)
+- HDMI (not yet)
+
 ## P2015_01_CER
 This project is related to the CER face. It uses FPGA to drive an 80x32 pixel display based on TLC5958
 
@@ -20,3 +33,4 @@ This project is related to the testing of the Xilinx DMA IP. The Xilinx DMA IP i
 
 ## Internal MAC board addresses
 In this file the assigned MAC address for each board and owner are listed in such a way to don't get in conflict.
+

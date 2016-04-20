@@ -47,6 +47,20 @@
 &i2c0 {
 	clock-frequency = <400000>;
 	status = "okay";
+    adxl345@53 {
+            compatible = "adi,adxl34x", "adxl34x";
+            reg = <0x53>;
+            interrupt-parent = <&intc>;
+            interrupts = <0 29 4>;
+    };
+
+    stlm75@49 {
+            status = "okay";
+            compatible = "lm75";
+            reg = <0x49>;
+            interrupt-parent = <&intc>;
+            interrupts = <0 30 4>;
+    };
 };
 &intc {
 	num_cpus = <2>;

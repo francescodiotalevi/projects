@@ -6,7 +6,7 @@ This project is related to a fully working ZTurn (except HDMI). All the on board
 ![top-view](http://www.myirtech.com/attached/image/20150129/zturnboard-interface.jpg)
 
 ## Installing
-The [board definition files] can be copied in the directory <path_to_repo>. For instance, in your home directory, i.e. under: ~/boards/boards/board_files/zturn-7020/2.1/. Then add the following line to your Vivado init script (`~/.Xilinx/Vivado/init.tcl`):
+The [board definition files] can be copied in the directory <path_to_repo>. For instance, in your home directory, i.e. under: ~/boards/board_files/zturn-7020/2.1/. Then add the following line to your Vivado init script (`~/.Xilinx/Vivado/init.tcl`):
 ```tcl
 set_param board.repoPaths [list "<path_to_repo>/boards/board_files"]
 ```

@@ -27,8 +27,7 @@ Starting from __reference_stuff__ directory:
 
 
 NOTE FOR IMPLEMENTING in ZTurn by Myir.
-- After having instanced the Zynq ps7 system, push preset and load ZynqPreset_Myir.tcl
-This set most of the features used by Zturn and the correct board delay time for DDR
+- At the beginning after having launched Vivado select the ZTURN 7020 as deplyment board.
 
 - When generate the FSBL_bsp, by hands move the version of the sdps driver to 2.2 and xilfs to 3.0.
   Then push "regenerate BSP sources" button

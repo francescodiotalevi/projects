@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<ip_presets schema="1.0">
+  <ip_preset preset_proc_name="uart_preset">
+    <ip vendor="xilinx.com" library="ip" name="iomodule" ip_interface="UART">
+      <user_parameters>
+        <user_parameter name="CONFIG.C_USE_UART_RX" value="1"/> 
+        <user_parameter name="CONFIG.C_USE_UART_TX" value="1"/> 
+      </user_parameters>
+    </ip>
+  </ip_preset>
+  <ip_preset preset_proc_name="ddr3_sdram_preset">
+    <ip vendor="xilinx.com" library="ip" name="mig_7series">
+      <user_parameters>
+        <user_parameter name="CONFIG.XML_INPUT_FILE" value="mig.prj" value_type="file"/> 
+      </user_parameters>
+    </ip>
+  </ip_preset>
+</ip_presets>

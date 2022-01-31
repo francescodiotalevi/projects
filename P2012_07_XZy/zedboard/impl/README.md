@@ -12,6 +12,7 @@ To create the u-boot for zedboard, follow these instructions:
    2. **make**
 3. the *.u-boot* file is then built in the directory where you typed the commands above
 
+**PLEASE: Use the 2016.4 arm gcc compiler**
 
 [pl.dtsi]:https://github.com/francescodiotalevi/projects/blob/master/P2015_01_CER/impl/zturn/pl.dtsi
 [here]:https://github.com/francescodiotalevi/u-boot-xlnx/tree/EDL_2015.2
